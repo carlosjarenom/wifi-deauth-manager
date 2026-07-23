@@ -36,11 +36,14 @@ cd wifi-deauth-manager
 makepkg -si                      # construye + instala como paquete del sistema
 ```
 
-### Opción D — Debian / Ubuntu / Kali desde .deb (siguiente fase)
+### Opción D — Debian / Ubuntu / Kali desde .deb (publicado vía GitHub Releases)
 ```bash
 sudo apt install aircrack-ng iw python3-pyside6.qtgui python3-platformdirs
-# Una vez publicado el .deb en GitHub Releases:
-sudo dpkg -i wifi-deauth-manager_*.deb
+# Tras el primer tag v*, GitHub Actions Compila y adjunta el .deb al release.
+# Bájalo desde: https://github.com/carlosjarenom/wifi-deauth-manager/releases
+wget https://github.com/carlosjarenom/wifi-deauth-manager/releases/download/v1.0.0/wifi-deauth-manager_1.0.0-1_all.deb
+sudo dpkg -i wifi-deauth-manager_1.0.0-1_all.deb
+sudo apt-get install -f   # resuelve deps que falten
 ```
 
 ### Tipografías editoriales (opcional pero recomendado)

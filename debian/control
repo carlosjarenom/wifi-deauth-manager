@@ -1,0 +1,35 @@
+Source: wifi-deauth-manager
+Section: net
+Priority: optional
+Maintainer: Carlos Jareño <carlos@freebuff.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-python,
+               pybuild-plugin-pyproject,
+               python3-all,
+               python3-setuptools,
+               python3-pip
+Standards-Version: 4.6.2
+Homepage: https://github.com/carlosjarenom/wifi-deauth-manager
+Rules-Requires-Root: no
+
+Package: wifi-deauth-manager
+Architecture: all
+Depends: ${python3:Depends},
+         ${misc:Depends},
+         aircrack-ng,
+         iw,
+         polkitd | policykit-1,
+         python3-pyside6.qtgui,
+         python3-platformdirs,
+         desktop-file-utils
+Recommends: fonts-noto-core
+Suggests: fonts-inter, fonts-jetbrains-mono
+Description: editorial PySide6 GUI for local pentesting with aircrack-ng
+ WiFi Deauth Manager is an editorial Qt6 GUI that wraps aircrack-ng
+ (airmon-ng, airodump-ng, aireplay-ng) with monitoring, focused scanning,
+ JSON/CSV export, OUI vendor lookup and channel overlap analysis. It uses
+ pkexec via polkit (auth_admin) for monitor-mode elevation and persists
+ target names via XDG Base Directory (platformdirs).
+ .
+ Use this tool ONLY on networks you own or have explicit authorization to
+ audit. Active attacks against third-party networks are illegal.

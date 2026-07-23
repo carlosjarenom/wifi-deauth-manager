@@ -1,0 +1,8 @@
+wifi-deauth-manager (1.0.0-1) unstable; urgency=medium
+
+  * Initial release.
+  * Editorial PySide6/Qt6 GUI for local pentesting with aircrack-ng.
+  * Cross-distro installation: pipx (CLI), Arch PKGBUILD (full),
+    Debian/Ubuntu .deb (full desktop integration via polkit + pkexec).
+
+ -- Carlos Jareño <carlos@freebuff.com>  Thu, 23 Jul 2026 14:30:00 +0200

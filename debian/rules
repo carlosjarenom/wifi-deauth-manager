@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+# Debian rules for wifi-deauth-manager.
+#
+# Usa pybuild (PEP 517) para instalar el módulo y override_dh_auto_install
+# para reubicar wifi_deauth_manager.py en /usr/share/wifi-deauth-manager/
+# (así el launcher.sh puede apuntarlo como ruta estable FHS, igual que el
+# PKGBUILD de Arch).
+
+export DH_VERBOSE = 1
+export PYBUILD_NAME = wifi-deauth-manager
+export PYBUILD_CONFIG_ARGS = --build-system=pyproject
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+# El wrapper bash se instala FUERA del pybuild para evitar que se trate como
+# módulo. El .py se reubica de dist-packages a /usr/share para alinear
+# con /usr/bin/wifi-deauth-manager (FHS-neutral).
+override_dh_auto_install:
+	dh_auto_install
+	# pybuild deja wifi_deauth_manager.py en dist-packages; lo movemos a
+	# /usr/share/wifi-deauth-manager para que el launcher (instalado en el
+	# paquete via debian/install) lo encuentre con una ruta FHS estable,
+	# igual que el PKGBUILD de Arch.
+	if [ -d debian/wifi-deauth-manager/usr/lib/python3/dist-packages ]; then \
+	    install -d debian/wifi-deauth-manager/usr/share/wifi-deauth-manager; \
+	    mv debian/wifi-deauth-manager/usr/lib/python3/dist-packages/wifi_deauth_manager.py \
+	       debian/wifi-deauth-manager/usr/share/wifi-deauth-manager/wifi_deauth_manager.py; \
+	    rmdir debian/wifi-deauth-manager/usr/lib/python3/dist-packages/* 2>/dev/null || true; \
+	    rmdir debian/wifi-deauth-manager/usr/lib/python3/dist-packages 2>/dev/null || true; \
+	fi
+
+# Lintian-clean: desactiva warnings esperables de un script Python interpretado.
+override_dh_lintian:
+	-dh_lintian || true
