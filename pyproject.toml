@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wifi-deauth-manager"
+version = "1.0.0"
+description = "Editorial PySide6/Qt6 GUI for local pentesting with aircrack-ng"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3.12"
+authors = [
+    {name = "Carlos Jareño", email = "carlos@freebuff.com"},
+]
+keywords = ["pentest", "wifi", "aircrack", "deauth", "monitor", "cybersecurity", "pyside6"]
+classifiers = [
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Security",
+]
+dependencies = [
+    "PySide6>=6.5",
+    "platformdirs>=3.0",
+]
+
+[project.scripts]
+wifi-deauth-manager = "wifi_deauth_manager:main"
+
+[project.urls]
+Homepage = "https://github.com/carlosjarenom/wifi-deauth-manager"
+Repository = "https://github.com/carlosjarenom/wifi-deauth-manager"
+"Bug Tracker" = "https://github.com/carlosjarenom/wifi-deauth-manager/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff"]
+
+[tool.setuptools]
+py-modules = ["wifi_deauth_manager"]

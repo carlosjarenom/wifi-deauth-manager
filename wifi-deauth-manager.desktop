@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=WiFi Deauth Manager
+GenericName[es]=Consola de pentesting local
+GenericName=Local pentesting console
+Comment[es]=Interfaz editorial para aircrack-ng (airmon-ng, airodump-ng, aireplay-ng)
+Comment=Editorial GUI for aircrack-ng — mode monitor + deauth
+Exec=pkexec /usr/bin/wifi-deauth-manager
+Icon=wifi-deauth-manager
+Terminal=false
+Categories=Network;Security;System;
+StartupNotify=true
+StartupWMClass=wifi-deauth-manager
+Keywords=pentest;wifi;aircrack;deauth;monitor;cybersecurity;
+MimeType=
+Actions=

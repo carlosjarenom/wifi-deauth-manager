@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  WiFi Deauth Manager \u2014 application icon
+  Editorial flat design aligned with the in-app 'Moderno' theme accent (#3A5BA0).
+  128x128 (recommended XDG spec size for application icons in hicolor/scalable).
+  Geometry:
+    \u00b7 rounded square background (rx="22") in editorial cobalto gradient.
+    \u00b7 three concentric arcs radiating from the bottom centre \u2014 broadcast diagram,
+      each more opaque as it gets closer to the source point.
+    \u00b7 a solid dot at the source \u2014 the AP.
+    \u00b7 a stylised lightning bolt in the upper-right \u2014 the deauth / injection action,
+      rendered in the theme 'danger' color (#E54B4B) with a 1.5px white stroke so it
+      pops over the gradient regardless of which desktop theme is applied.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 128 128"
+     width="128" height="128"
+     role="img" aria-label="WiFi Deauth Manager">
+  <title>WiFi Deauth Manager</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A5BA0"/>
+      <stop offset="1" stop-color="#2A4280"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="22" fill="url(#bg)"/>
+
+  <!-- WiFi arcs radiating upward from bottom centre.
+       Each arc is half of a circle \u2014 (M -r 0 A r r 0 0 1 +r 0) represents a top-half circle. -->
+  <g transform="translate(64 86)"
+     fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round">
+    <!-- arcs curve upward (broadcast) — sweep-flag=0 in SVG y-down coords -->
+    <path d="M -48 0 A 48 48 0 0 0 48 0" opacity="0.32"/>
+    <path d="M -32 0 A 32 32 0 0 0 32 0" opacity="0.65"/>
+    <path d="M -16 0 A 16 16 0 0 0 16 0"/>
+    <circle cx="0" cy="6" r="5" fill="#FFFFFF" stroke="none"/>
+  </g>
+
+  <!-- Lightning bolt in the upper-right corner \u2014 deauth / injection marker.
+       Path coordinates spell out a classic Z-shaped bolt. -->
+  <path d="M 92 18 L 78 50 L 90 50 L 78 74 L 100 42 L 88 42 Z"
+        fill="#E54B4B"
+        stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

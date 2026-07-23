@@ -1,0 +1,39 @@
+# ===== Paquetes Arch (makepkg)
+pkg/
+src/
+*.pkg.tar.*
+*.pkg.tar.zst
+*.pkg.tar.xz
+
+# ===== Python build artifacts (pip / setuptools)
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ===== Entornos virtuales
+.venv/
+venv/
+env/
+
+# ===== Test / lint cache
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ===== Editores / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ===== Misc
+*.log
+/.env
+/.envrc

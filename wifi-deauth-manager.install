@@ -1,0 +1,32 @@
+post_install() {
+    cat <<'EOF'
+==> WiFi Deauth Manager instalado en /usr.
+==> • Entrada .desktop:    /usr/share/applications/wifi-deauth-manager.desktop
+==> • Launcher (pkexec):   /usr/libexec/wifi-deauth-manager-launcher.sh
+==> • Política polkit:     /usr/share/polkit-1/actions/com.freebuff.wifi-deauth-manager.policy
+==> • Icono hicolor:       /usr/share/icons/hicolor/scalable/apps/wifi-deauth-manager.svg
+==>
+==> Polkit te pedirá contraseña al lanzar el icono (auth_admin) porque
+==> aircrack-ng requiere root para activar el modo monitor.
+EOF
+}
+
+post_upgrade() {
+    cat <<'EOF'
+==> WiFi Deauth Manager actualizado. Si la base de iconos no se refresca
+==> automáticamente, ejecuta:  sudo gtk-update-icon-cache -f /usr/share/icons/hicolor
+EOF
+}
+
+pre_remove() {
+    :
+}
+
+post_remove() {
+    cat <<'EOF'
+==> WiFi Deauth Manager desinstalado. Si quieres eliminar también la
+==> configuración de usuario, borra:
+==>     ~/.config/wifi-deauth-manager/
+==>     ~/.local/share/wifi-deauth-manager/
+EOF
+}

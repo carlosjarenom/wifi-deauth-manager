@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+  "-//freedesktop//DTD polkit Policy Configuration 1.0//EN"
+  "http://www.freedesktop.org/standards/polkit/1.0/policyconfig.dtd">
+<!--
+  Polkit policy for WiFi Deauth Manager (distro-neutral).
+  Authorises pkexec to launch /usr/bin/wifi-deauth-manager (which is provided
+  by either the Arch PKGBUILD, the Debian .deb, or `pip install
+  wifi-deauth-manager` — all of them place a wrapper there).
+  We choose auth_admin (not yes) so the elevation is explicit, not blanket.
+-->
+<policyconfig>
+  <action id="com.freebuff.wifi-deauth-manager.run">
+    <description>Run WiFi Deauth Manager with root privileges</description>
+    <message>WiFi Deauth Manager necesita acceso root para activar el modo monitor WiFi y ejecutar aircrack-ng. Esto es necesario para todas las funciones de la herramienta.</message>
+    <message xml:lang="en">WiFi Deauth Manager needs root access to enable WiFi monitor mode and run aircrack-ng. This is required for every function of the tool.</message>
+    <icon_name>wifi-deauth-manager</icon_name>
+    <defaults>
+      <allow_active>auth_admin</allow_active>
+      <allow_inactive>no</allow_inactive>
+      <allow_appearance>no</allow_appearance>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/wifi-deauth-manager</annotate>
+  </action>
+</policyconfig>
