@@ -3,7 +3,7 @@ post_install() {
 ==> WiFi Deauth Manager instalado en /usr.
 ==> • Entrada .desktop:    /usr/share/applications/wifi-deauth-manager.desktop
 ==> • Launcher (pkexec):   /usr/libexec/wifi-deauth-manager-launcher.sh
-==> • Política polkit:     /usr/share/polkit-1/actions/com.freebuff.wifi-deauth-manager.policy
+==> • Política polkit:     /usr/share/polkit-1/actions/com.wifi-deauth-manager.policy
 ==> • Icono hicolor:       /usr/share/icons/hicolor/scalable/apps/wifi-deauth-manager.svg
 ==>
 ==> Polkit te pedirá contraseña al lanzar el icono (auth_admin) porque

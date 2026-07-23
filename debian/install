@@ -1,5 +1,5 @@
 wifi-deauth-manager-launcher.sh /usr/bin/wifi-deauth-manager
 wifi-deauth-manager.desktop /usr/share/applications/wifi-deauth-manager.desktop
-com.freebuff.wifi-deauth-manager.policy /usr/share/polkit-1/actions/com.freebuff.wifi-deauth-manager.policy
+com.wifi-deauth-manager.policy /usr/share/polkit-1/actions/com.wifi-deauth-manager.policy
 wifi-deauth-manager.svg /usr/share/icons/hicolor/scalable/apps/wifi-deauth-manager.svg
 LICENSE /usr/share/licenses/wifi-deauth-manager/LICENSE
