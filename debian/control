@@ -19,7 +19,7 @@ Depends: ${python3:Depends},
          aircrack-ng,
          iw,
          polkitd | policykit-1,
-         python3-pyside6.qtgui,
+         python3-pyside6,
          python3-platformdirs,
          desktop-file-utils
 Recommends: fonts-noto-core

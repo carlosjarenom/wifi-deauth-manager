@@ -13,21 +13,20 @@ export PYBUILD_CONFIG_ARGS = --build-system=pyproject
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
-# El wrapper bash se instala FUERA del pybuild para evitar que se trate como
-# módulo. El .py se reubica de dist-packages a /usr/share para alinear
-# con /usr/bin/wifi-deauth-manager (FHS-neutral).
+# El wrapper bash se instala FUERA del pybuild vía debian/install (mapa
+# explícito de archivos). El .py se reubica de <purelib> a
+# /usr/share/wifi-deauth-manager/ para una ruta FHS estable, igual que
+# /usr/bin/wifi-deauth-manager (el wrapper apunta a /usr/share/...).
+# No hardcodeamos dist-packages: la ruta varía entre Python 3.12 y 3.13.
 override_dh_auto_install:
 	dh_auto_install
-	# pybuild deja wifi_deauth_manager.py en dist-packages; lo movemos a
-	# /usr/share/wifi-deauth-manager para que el launcher (instalado en el
-	# paquete via debian/install) lo encuentre con una ruta FHS estable,
-	# igual que el PKGBUILD de Arch.
-	if [ -d debian/wifi-deauth-manager/usr/lib/python3/dist-packages ]; then \
-	    install -d debian/wifi-deauth-manager/usr/share/wifi-deauth-manager; \
-	    mv debian/wifi-deauth-manager/usr/lib/python3/dist-packages/wifi_deauth_manager.py \
+	install -d debian/wifi-deauth-manager/usr/share/wifi-deauth-manager
+	# sysconfig devuelve el purelib del Python de compilación
+	# (/usr/lib/python3.12/dist-packages o análogo).
+	PYLIB=$$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
+	if [ -f "debian/wifi-deauth-manager$${PYLIB}/wifi_deauth_manager.py" ]; then \
+	    mv "debian/wifi-deauth-manager$${PYLIB}/wifi_deauth_manager.py" \
 	       debian/wifi-deauth-manager/usr/share/wifi-deauth-manager/wifi_deauth_manager.py; \
-	    rmdir debian/wifi-deauth-manager/usr/lib/python3/dist-packages/* 2>/dev/null || true; \
-	    rmdir debian/wifi-deauth-manager/usr/lib/python3/dist-packages 2>/dev/null || true; \
 	fi
 
 # Lintian-clean: desactiva warnings esperables de un script Python interpretado.
