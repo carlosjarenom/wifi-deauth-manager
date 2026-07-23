@@ -1,16 +1,16 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: wifi-deauth-manager
-Upstream-Contact: Carlos Jareño <carlos@freebuff.com>
+Upstream-Contact: WiFi Deauth Manager Maintainers <noreply@wifi-deauth-manager.invalid>
 Source: https://github.com/carlosjarenom/wifi-deauth-manager
 
 Files: *
-Copyright: 2024-2026 Carlos Jareño <carlos@freebuff.com>
-License: GPL-3.0-or-later
+Copyright: 2024-2026 The WiFi Deauth Manager maintainers
+License: GPL-2.0-or-later
 
-License: GPL-3.0-or-later
- This program is free software: you can redistribute it and/or modify
+License: GPL-2.0-or-later
+ This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
+ the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
  .
  This program is distributed in the hope that it will be useful,
@@ -19,7 +19,8 @@ License: GPL-3.0-or-later
  GNU General Public License for more details.
  .
  You should have received a copy of the GNU General Public License
- along with this program. If not, see <https://www.gnu.org/licenses/>.
+ along with this program. If not, see
+ <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>.
  .
  On Debian systems, the complete text of the GNU General Public
- License version 3 can be found in /usr/share/common-licenses/GPL-3.
+ License version 2 can be found in /usr/share/common-licenses/GPL-2.

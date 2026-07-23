@@ -1,7 +1,7 @@
 Source: wifi-deauth-manager
 Section: net
 Priority: optional
-Maintainer: Carlos Jareño <carlos@freebuff.com>
+Maintainer: WiFi Deauth Manager Maintainers <noreply@wifi-deauth-manager.invalid>
 Build-Depends: debhelper-compat (= 13),
                dh-python,
                pybuild-plugin-pyproject,
@@ -24,7 +24,7 @@ Depends: ${python3:Depends},
          desktop-file-utils
 Recommends: fonts-noto-core
 Suggests: fonts-inter, fonts-jetbrains-mono
-Description: editorial PySide6 GUI for local pentesting with aircrack-ng
+Description: editorial PySide6/Qt6 GUI for local pentesting with aircrack-ng
  WiFi Deauth Manager is an editorial Qt6 GUI that wraps aircrack-ng
  (airmon-ng, airodump-ng, aireplay-ng) with monitoring, focused scanning,
  JSON/CSV export, OUI vendor lookup and channel overlap analysis. It uses

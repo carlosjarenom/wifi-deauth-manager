@@ -1,34 +1,45 @@
 # WiFi Deauth Manager
 
-> Consola editorial de pentesting local para `aircrack-ng` — sustituye los comandos de terminal por una GUI PySide6 con 8 temas curados y un wiki-guía integrado en español.
+> Editorial PySide6/Qt6 GUI for local pentesting with `aircrack-ng`
+> — replaces CLI commands with a hand-curated GUI, 8 themes,
+> an integrated 12-section Spanish wiki-guide and a focus-mode scanner.
 
-## Stack
+[![License: GPL-2.0-or-later](https://img.shields.io/badge/License-GPL--2.0--or--later-blue.svg)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/)
+[![Platform: Linux](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](#-installation-matrix)
 
-- **GUI**: Python 3.12 · PySide6 / Qt6
-- **Backend**: `airmon-ng`, `airodump-ng`, `aireplay-ng`, `iw`
-- **Modelo UI**: editorial monocromo + 1 acento · 8 temas curados
-- **Estado actual**: parser regex anclado a `airodump-ng` · 8 temas · wiki 12 secciones con sticky TOC · export JSON/CSV · channel overlap analyzer · OUI vendor lookup embebida (~610 prefixes)
-- **Tamaño**: ~2.7 k líneas en un único archivo (backend + GUI + WIKI + OUI DB)
+> ⚠️ **Solo para redes propias o con autorización explícita.** El uso contra redes ajenas es ilegal (España: CP arts. 197–264, LOPDGDD, Ley 9/2014).
 
-## 🚀 Instalación rápida
+## 🚀 Instalación rápida — pick your distro
 
-### Opción A — pipx (recomendada, distro-agnostic)
+| Familia | Instalación | Tiempo |
+|---|---|---|
+| **Arch / CachyOS / Manjaro** | `git clone … && cd … && makepkg -si` | 1 min |
+| **Debian / Ubuntu / Kali / Mint / PopOS** | `sudo dpkg -i wifi-deauth-manager_*.deb` *(disponible en [Releases](https://github.com/carlosjarenom/wifi-deauth-manager/releases))* | 30 s |
+| **Fedora / RHEL / CentOS / Nobara** | `sudo dnf install ./wifi-deauth-manager-*.rpm` *(id.)* | 30 s |
+| **Cualquier distro** | `pipx install wifi-deauth-manager` *(solo CLI)* | 1 min |
+| **Desarrollo** | `pip install -e ".[dev]"` | 1 min |
+
+<details>
+<summary><b>Opción A — pipx (recomendada, distro-agnostic)</b></summary>
+
 ```bash
 pipx install wifi-deauth-manager
-# añade deps de sistema (aircrack-ng + iw):
-#   Arch:   sudo pacman -S aircrack-ng iw
-#   Debian: sudo apt install aircrack-ng iw
-sudo wifi-deauth-manager        # o desde el menú de apps (polkit pedirá contraseña)
+sudo apt install aircrack-ng iw       # o: sudo pacman -S / sudo dnf install
+sudo wifi-deauth-manager               # o desde el menú de apps (polkit pedirá contraseña)
 ```
 
-### Opción B — pip (--user o venv)
+`pipx` deja el binario en `~/.local/bin/wifi-deauth-manager`. El icono del menú aparece solo si usas un instalador de sistema (Arch PKGBUILD, .deb, .rpm) o si enlazas manualmente:
 ```bash
-python3 -m pip install --user wifi-deauth-manager
-sudo apt install aircrack-ng iw       # o: pacman -S aircrack-ng iw
-sudo $(python3 -c 'import sys, pathlib; print(pathlib.Path(sys.prefix).parent / "bin" / "wifi-deauth-manager")')
+sudo ln -sf "$(which wifi-deauth-manager)" /usr/bin/wifi-deauth-manager
+./install.sh   # despliega .desktop + polkit + icon en ~/.local/
 ```
 
-### Opción C — Arch desde el PKGBUILD local
+</details>
+
+<details>
+<summary><b>Opción B — Arch desde el PKGBUILD local</b></summary>
+
 ```bash
 sudo pacman -S aircrack-ng iw python-pyside6 python-platformdirs
 git clone https://github.com/carlosjarenom/wifi-deauth-manager
@@ -36,45 +47,53 @@ cd wifi-deauth-manager
 makepkg -si                      # construye + instala como paquete del sistema
 ```
 
-### Opción D — Debian / Ubuntu / Kali desde .deb (publicado vía GitHub Releases)
+</details>
+
+<details>
+<summary><b>Opción C — Debian / Ubuntu / Kali desde .deb</b></summary>
+
 ```bash
-sudo apt install aircrack-ng iw python3-pyside6.qtgui python3-platformdirs
-# Tras el primer tag v*, GitHub Actions Compila y adjunta el .deb al release.
-# Bájalo desde: https://github.com/carlosjarenom/wifi-deauth-manager/releases
+sudo apt install aircrack-ng iw python3-pyside6 python3-platformdirs
 wget https://github.com/carlosjarenom/wifi-deauth-manager/releases/download/v1.0.0/wifi-deauth-manager_1.0.0-1_all.deb
 sudo dpkg -i wifi-deauth-manager_1.0.0-1_all.deb
-sudo apt-get install -f   # resuelve deps que falten
 ```
+
+`.deb` se compila automáticamente en CI al pushear tags `v*` (ver `.github/workflows/release.yml`).
+
+</details>
+
+<details>
+<summary><b>Opción D — Fedora / RHEL / CentOS desde .rpm</b></summary>
+
+```bash
+sudo dnf install aircrack-ng iw python3-pyside6 python3-platformdirs
+wget https://github.com/carlosjarenom/wifi-deauth-manager/releases/download/v1.0.0/wifi-deauth-manager-1.0.0-1.noarch.rpm
+sudo dnf install ./wifi-deauth-manager-1.0.0-1.noarch.rpm
+```
+
+`.rpm` se compila con `rpmbuild` desde `rpm/wifi-deauth-manager.spec` en CI.
+
+</details>
 
 ### Tipografías editoriales (opcional pero recomendado)
+
 ```bash
-# Arch
-sudo pacman -S inter-font ttf-jetbrains-mono
-# Debian / Ubuntu
-sudo apt install fonts-inter fonts-jetbrains-mono
+sudo pacman -S inter-font ttf-jetbrains-mono       # Arch
+sudo apt install fonts-inter fonts-jetbrains-mono  # Debian / Ubuntu
+sudo dnf install fonts-inter fonts-jetbrains-mono   # Fedora
 ```
+
 Sin ellas Qt6 cae a Cantarell + DejaVu (funcional pero menos cuidado).
 
-### 📦 Aclaración sobre rutas de instalación
+## 🧭 Tabla de características
 
-`pipx install wifi-deauth-manager` y `pip install --user` colocan el binario en `~/.local/bin/wifi-deauth-manager`, mientras que el `.desktop` y el `.policy` apuntan a `/usr/bin/wifi-deauth-manager`. Por tanto:
-
-- **Opción A/B (pipx|pip --user)** → command-line funciona (`sudo wifi-deauth-manager`). El icono del menú **no aparecerá** hasta que enlaces el binario manualmente.
-- **Opción C/D (PKGBUILD|.deb)** → integración completa con icono, polkit y .desktop listos.
-
-Para activar el icono tras pipx/pip --user:
-
-```bash
-sudo ln -sf "$(which wifi-deauth-manager)" /usr/bin/wifi-deauth-manager
-./install.sh   # despliega .desktop + .policy + icon en ~/.local/
-```
-
-## Uso
-
-1. Lanza desde el menú de aplicaciones (busca "WiFi Deauth Manager"). Polkit te pide contraseña → tecleas y se eleva a root.
-2. Pestaña **Cambio** → elige adaptador + activa modo monitor con `airmon-ng`.
-3. Pestaña **Escaneo** → escaneo general (≈5 s) + filtrar por ESSID o por canal. Doble-click sobre un AP para enfocarlo.
-4. Pestaña **Ataque** → deauth individual o masiva contra un AP / todas las estaciones. Bitácora con timestamps + export a `.txt`.
+| Pestaña        | Qué hace |
+|----------------|----------|
+| **Cambio**     | Selección de adaptador WiFi · activar/desactivar modo monitor con `airmon-ng` |
+| **Escaneo**    | Escaneo general + filtrado por banda / ESSID · agrupador por ESSID · botón Exportar (JSON/CSV) · botón Analizar solapamiento 2.4 GHz · doble click para enfocar un AP |
+| **Ataque**     | Deauth individual o masiva con selección rápida de estaciones · bitácora con timestamps · export a `.txt` |
+| **Guardados**  | Nombres legibles por BSSID/MAC persistentes en `~/.config/wifi-deauth-manager/saved_targets.json` (XDG) |
+| **Ayuda**      | Wiki-guía editorial: 12 secciones, sticky TOC, Ctrl+F para buscar, sello ATENCIÓN para secciones críticas |
 
 ### Atajos de teclado
 
@@ -86,6 +105,18 @@ sudo ln -sf "$(which wifi-deauth-manager)" /usr/bin/wifi-deauth-manager
 | `Ctrl+Q` | (Escaneo) Limpia filtro ESSID |
 | `Ctrl+F` | (Ayuda) Enfoca la búsqueda lateral |
 
+### Temas editoriales (8)
+
+`Papel → Static Ink (default) → Moderno → Olive Press → Sepia → Nordic → Slate → OLED`. Cada tema define 14 campos de palette (bg / surface / surface_alt / fg / fg_dim / accent / accent_dim / border / border_hi / danger / success / warn / sans / mono). No son variantes cream-on-cream: tienen huella visual propia.
+
+## 🤔 ¿Por qué no usar Wifite / Bettercap?
+
+**Wifite** ataca sin pausa usando heurísticas automáticas (WPA handshake → auto-crack con wordlist). Es ideal cuando solo quieres resultados.
+
+**Bettercap** es un framework swiss-army (WiFi + BLE + HID) mucho más amplio pero menos editorial.
+
+**WiFi Deauth Manager** está en el otro extremo: te deja *ver* lo que está pasando (parser con sticky TOC, OUI vendor realtime, channel-overlap analyzer, bitácora). Es para auditoría metódica, no para "fire-and-forget". Usa el script Python directo solo cuando quieras control total; usa Wifite si lo que quieres es automatizar.
+
 ## 🛠 Desarrollo
 
 ```bash
@@ -95,10 +126,10 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 
 # Tests del parser airodump-ng
-python3 -m pytest test_parser.py
+python -m pytest test_parser.py -v
 
 # Smoke test headless (sin DISPLAY)
-QT_QPA_PLATFORM=offscreen python3 -c "
+QT_QPA_PLATFORM=offscreen python -c "
 import wifi_deauth_manager as w
 from PySide6.QtWidgets import QApplication
 import sys
@@ -110,22 +141,42 @@ print('OUI DB:', len(w.OUI_TO_VENDOR), 'prefixes')
 "
 ```
 
-## 🚨 Notas importantes
+## 🤔 FAQ
 
-1. **Requiere root / sudo** — el modo monitor y la deauth necesitan `CAP_NET_ADMIN`. Por eso el `.desktop` invoca la app vía `pkexec` con `auth_admin`.
-2. **No usar sin autorización** — los ataques contra redes ajenas son ilegales (España: CP arts. 197–264, LOPDGDD, Ley 9/2014). Esta herramienta es **exclusivamente para auditorías en redes propias**.
-3. `saved_targets.json` se guarda en `~/.config/wifi-deauth-manager/` (XDG) — no se mete en el repo.
-4. Botones Exportar / Analizar se desactivan automáticamente cuando no hay escaneo.
-5. Si ejecutas la app con `pkexec` las exports se escriben como root; recuerda `chown` si quieres editarlas con tu usuario.
+**P: ¿Por qué GPL-2.0-or-later y no GPL-3?**
+R: copyleft clásico (cualquier fork debe seguir siendo open-source) + familiar para la mayoría de proyectos de seguridad. `-or-later` permite a contribuidores futuros relicenciar a v3 si hace falta para interoperar.
 
-## Licencia
+**P: ¿Y si mi distro no está en la tabla?**
+R: Cubre todo LinuxHF vía `pipx install wifi-deauth-manager`. macOS/Windows no funcionan porque `aircrack-ng` no soporta sus drivers WiFi en modo monitor.
 
-GPL-3.0-or-later — ver [`LICENSE`](LICENSE).
+**P: ¿Cómo puedo debuggear un crash?**
+R: Lanza desde terminal con `sudo wifi-deauth-manager 2>&1 | tee /tmp/wdm-debug.log`. Adjunta el log en Issues.
 
-## Contribuir
+**P: ¿Por qué `~/.local/` no es suficiente?**
+R: El `install.sh` legacy despliega `.desktop` / `.policy` / `icon` a nivel de usuario, pero el binario debe existir en `/usr/bin/wifi-deauth-manager` antes. Por eso lo más limpio es usar el paquete de tu distro (PKGBUILD / .deb / .rpm) o `pipx install`.
 
-PRs y bug reports bienvenidos en `https://github.com/carlosjarenom/wifi-deauth-manager/issues`.
+## 🚨 Aviso legal
 
----
+1. **Requiere `CAP_NET_ADMIN`** (root / sudo) — el modo monitor y la deauth lo necesitan. El `.desktop` invoca la app vía `pkexec` con `auth_admin`.
+2. **Solo autoriza el uso en redes propias o con autorización explícita y por escrito.** Los ataques contra redes ajenas son ilegales en la mayoría de jurisdicciones.
+3. `saved_targets.json` y los exports de scan se guardan en `~/.config/wifi-deauth-manager/` (XDG, via platformdirs).
+4. Si ejecutas la app con pkexec las exports se escriben como root; recuerda `chown tu_usuario:tu_usuario archivo.json` si quieres editarlas con tu usuario.
 
-Hecho con ☕ por Carlos Jareño · Freebuff.
+## 📋 Distribución y empaquetado
+
+| Formato | Carpeta / archivo | Generado por | Estado |
+|---|---|---|---|
+| Wheel + sdist (PyPI) | `pyproject.toml` | `python -m build` | ✅ |
+| Arch `.pkg.tar.zst` | `PKGBUILD` | `makepkg -sf` | ✅ |
+| Debian `.deb` | `debian/` | `dpkg-buildpackage -us -uc -b` | ✅ |
+| Fedora `.rpm` | `rpm/wifi-deauth-manager.spec` | `rpmbuild -ba` | ✅ |
+| GitHub Actions CI | `.github/workflows/release.yml` | push tag `v*` | ✅ |
+| Arch User Repository (AUR) | — | — | ❌ fuera de scope |
+
+## 📜 Licencia
+
+**GPL-2.0-or-later** — ver [`LICENSE`](LICENSE). Eres libre de usar, modificar y redistribuir el código, pero **cualquier redistribución debe mantener la misma licencia copyleft**.
+
+## 🤝 Contribuciones
+
+PRs y bug reports bienvenidos en [GitHub Issues](https://github.com/carlosjarenom/wifi-deauth-manager/issues). Bug reports con `~/.config/wifi-deauth-manager/` + `sudo wifi-deauth-manager 2>&1 | tee /tmp/wdm.log` adjuntos suelen resolverse en horas.

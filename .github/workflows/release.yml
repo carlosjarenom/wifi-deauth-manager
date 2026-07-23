@@ -49,11 +49,18 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             debhelper debhelper-compat dh-python pybuild-plugin-pyproject \
             python3-all python3-setuptools python3-pip \
-            python3-pyside6.qtgui python3-platformdirs \
-            aircrack-ng iw lintian desktop-file-utils
+            python3-pyside6 python3-platformdirs \
+            aircrack-ng iw lintian desktop-file-utils \
+            rpm rpm-build
 
-      - name: Build wheel + sdist
+      - name: Build wheel + sdist (PyPI)
         run: python -m build
+
+      - name: Sanity-check the wheel
+        run: |
+          python -m venv /tmp/v && \
+          /tmp/v/bin/pip install dist/wifi_deauth_manager-*.whl && \
+          /tmp/v/bin/python -c "import wifi_deauth_manager; print('module imports OK')"
 
       - name: Build Debian package
         run: |
@@ -62,16 +69,27 @@ jobs:
           mkdir -p artifacts
           cp ../*.deb artifacts/
 
-      - name: Lintian check (Debian package)
+      - name: Lintian (Debian)
         run: |
-          # Lintian warnings tolerated; the goal is to have NO errors.
           lintian --no-tag-display-limit --display-info artifacts/*.deb || true
 
-      - name: Sanity-check the wheel
+      - name: Build RPM (Fedora/RHEL/CentOS)
         run: |
-          python -m venv /tmp/v && \
-          /tmp/v/bin/pip install dist/wifi_deauth_manager-*.whl && \
-          /tmp/v/bin/python -c "import wifi_deauth_manager; print('module imports OK')"
+          # Generamos un tarball source local que matches el Source0 del .spec
+          # (%{name}-%{version}.tar.gz). El .spec lo extrae en su %prep.
+          mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SRPMS,SPECS}
+          tar -czf ~/rpmbuild/SOURCES/wifi-deauth-manager-1.0.0.tar.gz \
+              --transform='s,^,wifi-deauth-manager-1.0.0/,' \
+              --exclude='.git' --exclude='dist' --exclude='pkg' \
+              --exclude='*.pkg.tar.*' --exclude='__pycache__' \
+              --exclude='.venv' --exclude='.pytest_cache' \
+              .
+          cp rpm/wifi-deauth-manager.spec ~/rpmbuild/SPECS/
+          rpmbuild -ba ~/rpmbuild/SPECS/wifi-deauth-manager.spec
+          cp ~/rpmbuild/RPMS/noarch/*.rpm artifacts/
+
+      - name: Sanity-check the RPM
+        run: rpm -qpi artifacts/*.rpm | head -20
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -81,6 +99,7 @@ jobs:
             dist/wifi_deauth_manager-*.whl
             dist/wifi_deauth_manager-*.tar.gz
             artifacts/*.deb
+            artifacts/*.rpm
 
       - name: Publish to PyPI
         if: startsWith(github.ref, 'refs/tags/')
@@ -97,4 +116,5 @@ jobs:
             dist/wifi_deauth_manager-*.whl
             dist/wifi_deauth_manager-*.tar.gz
             artifacts/*.deb
+            artifacts/*.rpm
           generate_release_notes: true

@@ -7,16 +7,16 @@ name = "wifi-deauth-manager"
 version = "1.0.0"
 description = "Editorial PySide6/Qt6 GUI for local pentesting with aircrack-ng"
 readme = "README.md"
-license = {text = "GPL-3.0-or-later"}
+license = {text = "GPL-2.0-or-later"}
 requires-python = ">=3.12"
 authors = [
-    {name = "Carlos Jareño", email = "carlos@freebuff.com"},
+    {name = "WiFi Deauth Manager Maintainers"},
 ]
 keywords = ["pentest", "wifi", "aircrack", "deauth", "monitor", "cybersecurity", "pyside6"]
 classifiers = [
     "Environment :: X11 Applications :: Qt",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3 :: Only",
